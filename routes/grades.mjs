@@ -108,42 +108,41 @@ router.delete("/learner/:id", async (req, res) => {
   }
 });
 
-// // Get a class's grade data
-// router.get("/class/:id", async (req, res) => {
-//   let collection = await db.collection("grades");
-//   let query = { class_id: Number(req.params.id) };
+router.get("/class/:id", async (req, res) => {
+  try {
+    let query = { class_id: Number(req.params.id) };
 
-//   // Check for learner_id parameter
-//   if (req.query.learner) query.learner_id = Number(req.query.learner);
+    // Check for learner_id parameter
+    if (req.query.learner) query.learner_id = Number(req.query.learner);
 
-//   let result = await collection.find(query).toArray();
+    let result = await Grade.find(query);
 
-//   if (!result) res.send("Not found").status(404);
-//   else res.send(result).status(200);
-// });
+    if (!result) res.send("Not found").status(404);
+    else res.send(result).status(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+  }
+});
 
-// // Update a class id
-// router.patch("/class/:id", async (req, res) => {
-//   let collection = await db.collection("grades");
-//   let query = { class_id: Number(req.params.id) };
+router.patch("/class/:id", async (req, res) => {
+  let query = { class_id: Number(req.params.id) };
 
-//   let result = await collection.updateMany(query, {
-//     $set: { class_id: req.body.class_id }
-//   });
+  let result = await Grade.updateMany(query, {
+    $set: { class_id: req.body.class_id }
+  });
 
-//   if (!result) res.send("Not found").status(404);
-//   else res.send(result).status(200);
-// });
+  if (!result) res.send("Not found").status(404);
+  else res.send(result).status(200);
+});
 
-// // Delete a class
-// router.delete("/class/:id", async (req, res) => {
-//   let collection = await db.collection("grades");
-//   let query = { class_id: Number(req.params.id) };
+router.delete("/class/:id", async (req, res) => {
+  let query = { class_id: Number(req.params.id) };
 
-//   let result = await collection.deleteMany(query);
+  let result = await Grade.deleteMany(query);
 
-//   if (!result) res.send("Not found").status(404);
-//   else res.send(result).status(200);
-// });
+  if (!result) res.send("Not found").status(404);
+  else res.send(result).status(200);
+});
 
 export default router;
