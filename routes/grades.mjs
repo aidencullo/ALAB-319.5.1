@@ -75,24 +75,24 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// // Get route for backwards compatibility
-// router.get("/student/:id", async (req, res) => {
-//   res.redirect(`learner/${req.params.id}`);
-// });
+router.get("/student/:id", async (req, res) => {
+  res.redirect(`/grades/learner/${req.params.id}`);
+});
 
-// // Get a learner's grade data
-// router.get("/learner/:id", async (req, res) => {
-//   let collection = await db.collection("grades");
-//   let query = { learner_id: Number(req.params.id) };
+router.get("/learner/:id", async (req, res) => {
+  try{
+    let query = { learner_id: Number(req.params.id) };
 
-//   // Check for class_id parameter
-//   if (req.query.class) query.class_id = Number(req.query.class);
+    if (req.query.class) query.class_id = Number(req.query.class);
 
-//   let result = await collection.find(query).toArray();
+    const result = await Grade.find(query);
 
-//   if (!result) res.send("Not found").status(404);
-//   else res.send(result).status(200);
-// });
+    if (!result) res.send("Not found").status(404);
+    else res.send(result).status(200);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 // // Delete a learner's grade data
 // router.delete("/learner/:id", async (req, res) => {
