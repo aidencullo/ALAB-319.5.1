@@ -9,7 +9,6 @@ router.get("/", async (req, res) => {
   res.send(results);
 });
 
-// Create a single grade entry
 router.post("/", async (req, res) => {
   console.log(req.body);
   try {
@@ -27,15 +26,16 @@ router.post("/", async (req, res) => {
   }
 });
 
-// // Get a single grade entry
-// router.get("/:id", async (req, res) => {
-//   let collection = await db.collection("grades");
-//   let query = { _id: ObjectId(req.params.id) };
-//   let result = await collection.findOne(query);
-
-//   if (!result) res.send("Not found").status(404);
-//   else res.send(result).status(200);
-// });
+router.get("/:id", async (req, res) => {
+  try {
+    const result = await Grade.findById(req.params.id);
+    if (!result) res.send("Not found").status(404);
+    else res.send(result).status(200);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
 
 // // Add a score to a grade entry
 // router.patch("/:id/add", async (req, res) => {
