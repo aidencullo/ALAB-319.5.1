@@ -94,16 +94,19 @@ router.get("/learner/:id", async (req, res) => {
   }
 });
 
-// // Delete a learner's grade data
-// router.delete("/learner/:id", async (req, res) => {
-//   let collection = await db.collection("grades");
-//   let query = { learner_id: Number(req.params.id) };
+router.delete("/learner/:id", async (req, res) => {
+  try {
+    let query = { learner_id: Number(req.params.id) };
 
-//   let result = await collection.deleteOne(query);
+    let result = await Grade.deleteMany(query);
 
-//   if (!result) res.send("Not found").status(404);
-//   else res.send(result).status(200);
-// });
+    if (!result) res.send("Not found").status(404);
+    else res.send(result).status(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+  }
+});
 
 // // Get a class's grade data
 // router.get("/class/:id", async (req, res) => {
