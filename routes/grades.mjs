@@ -37,18 +37,19 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// // Add a score to a grade entry
-// router.patch("/:id/add", async (req, res) => {
-//   let collection = await db.collection("grades");
-//   let query = { _id: ObjectId(req.params.id) };
+router.patch("/:id/add", async (req, res) => {
+  try {
+    const result = await Grade.updateOne(
+      { _id: req.params.id },
+      { $push: { scores: req.body } }
+    );
 
-//   let result = await collection.updateOne(query, {
-//     $push: { scores: req.body }
-//   });
-
-//   if (!result) res.send("Not found").status(404);
-//   else res.send(result).status(200);
-// });
+    if (!result) res.send("Not found").status(404);
+    else res.send(result).status(200);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 // // Remove a score from a grade entry
 // router.patch("/:id/remove", async (req, res) => {
