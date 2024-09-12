@@ -1,33 +1,13 @@
-// import express from "express";
+import express from "express";
 
-// import Grade from "../models/Grade.mjs";
+import Grade from "../models/Grade.js";
 
-// const router = express.Router();
+const router = express.Router();
 
-// import express from 'express';
-// import connect from './db/connect.js';
-
-// import Grade from './models/grade.js';
-
-// const app = express();
-
-// app.use(express.json());
-
-// app.get('/', async (req, res) => {
-//   const results = await Grade.find({ class_id: 311 }).limit(5);
-//   res.send(results);
-// });
-
-// app.listen(3000, () => {
-//   console.log('Server is running on port 3000');
-//   connect();
-// });
-
-
-// router.get("/", async (req, res) => {
-//   const results = await Grade.find({ class_id: 311 }).limit(5);
-//   res.send(result);
-// });
+router.get("/", async (req, res) => {
+  const results = await Grade.find({ class_id: 311 }).limit(5);
+  res.send(results);
+});
 
 // // Create a single grade entry
 // router.post("/", async (req, res) => {
