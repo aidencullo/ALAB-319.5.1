@@ -4,6 +4,14 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+  let collection = await db.collection("grades");
+  let result = await collection.find().limit(10).toArray();
+
+  if (!result) res.send("Not found").status(404);
+  else res.send(result).status(200);
+});
+
 // Create a single grade entry
 router.post("/", async (req, res) => {
   let collection = await db.collection("grades");
