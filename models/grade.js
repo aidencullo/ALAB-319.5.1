@@ -7,7 +7,7 @@ const gradeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  student_id: {
+  learner_id: {
     type: Number,
     required: true,
   },

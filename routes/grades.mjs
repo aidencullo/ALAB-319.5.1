@@ -9,20 +9,23 @@ router.get("/", async (req, res) => {
   res.send(results);
 });
 
-// // Create a single grade entry
-// router.post("/", async (req, res) => {
-//   let collection = await db.collection("grades");
-//   let newDocument = req.body;
+// Create a single grade entry
+router.post("/", async (req, res) => {
+  console.log(req.body);
+  try {
+    let newDocument = req.body;
 
-//   // rename fields for backwards compatibility
-//   if (newDocument.student_id) {
-//     newDocument.learner_id = newDocument.student_id;
-//     delete newDocument.student_id;
-//   }
+    if (newDocument.student_id) {
+      newDocument.learner_id = newDocument.student_id;
+      delete newDocument.student_id;
+    }
 
-//   let result = await collection.insertOne(newDocument);
-//   res.send(result).status(204);
-// });
+    const result = await Grade.create(newDocument);
+    res.send(result).status(204);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 // // Get a single grade entry
 // router.get("/:id", async (req, res) => {
@@ -79,7 +82,7 @@ router.get("/", async (req, res) => {
 // router.get("/learner/:id", async (req, res) => {
 //   let collection = await db.collection("grades");
 //   let query = { learner_id: Number(req.params.id) };
-  
+
 //   // Check for class_id parameter
 //   if (req.query.class) query.class_id = Number(req.query.class);
 
