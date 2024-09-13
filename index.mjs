@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/grades", grades);
-// app.use("/grades", grades_agg);
+app.use("/grades", grades_agg);
 
 app.use((err, _req, res, next) => {
   res.status(500).send("Seems like we messed up somewhere...");
